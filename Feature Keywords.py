@@ -22,7 +22,7 @@ def stopwordslist(filepath):
 # 移除停用詞
 def removestopwords(content, stopwords):
     non_stopwords = []
-    for i in content:
+    for i in jieba2.cut(content):
         if i not in stopwords:
             non_stopwords.append(i)
 
@@ -79,11 +79,8 @@ for content in corpus:
         else:
             old_sentence = str(content[1]).replace("\\n", '')
             # 只保留繁體字
-            new_sentence = re.sub(r'[^\u4e00-\u9fa5]', '', old_sentence)
-            stopword_sentence = []
-            for w in jieba2.cut(new_sentence):
-                stopword_sentence.append(w)
-            non_stopword_sentence = removestopwords(stopword_sentence, stopwords)
+            new_sentence = re.sub(r'[^\u4e00-\u9fa5]', '', old_sentence)                                    
+            non_stopword_sentence = removestopwords(new_sentence, stopwords)
             for w in non_stopword_sentence:
                 words[w] += 1
     elif content[0] not in temp_title:
